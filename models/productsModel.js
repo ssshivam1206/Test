@@ -18,10 +18,10 @@ const productsSchema = new mongoose.Schema(
     slug: {
       type: String,
     },
-    product_image: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'ProductImage',
-    },
+    // product_image: {
+    //   type: mongoose.Schema.ObjectId,
+    //   ref: 'ProductImage',
+    // },
     category_id: {
       type: mongoose.Schema.ObjectId,
       ref: 'Category',
@@ -42,6 +42,12 @@ const productsSchema = new mongoose.Schema(
 productsSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
+});
+
+productsSchema.virtual('productimage', {
+  ref: 'ProductImage',
+  foreignField: 'product_id',
+  localField: '_id',
 });
 
 // productsSchema.pre(/^find/, function (next) {

@@ -70,7 +70,9 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.getproduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.id).populate('category_id');
+  const product = await Product.findById(req.params.id).populate(
+    'productimage'
+  );
 
   if (!product) {
     return next(new AppError('Not Found any products with this ID', 404));
@@ -79,7 +81,6 @@ exports.getproduct = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: product,
-    select: 'image_url',
   });
 });
 
